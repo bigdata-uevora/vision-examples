@@ -32,7 +32,7 @@ After installing all dependencies, you should deactivate the virtual environment
 ## Configure the Slurm job script
 
 ### Example
-The file [script_venv.sh](script_venv.sh) is an example on how to configure the slurm job:
+The following file ([script_venv.sh](script_venv.sh)) is of a Slurm job script to run this project:
 
 ```bash
 #!/bin/bash
@@ -49,6 +49,12 @@ python cnn.py
 
 deactivate
 ```
+
+In the first part of the script, we define the job name, the output file and the requested resources (4 CPUs and 2 GPUs). Then, in the second part, we define the tasks of the job. When using Python Virtual Environments, we should do the following:
+
+1. Activate the Python environment;
+2. Excecute the code;
+3. Deactivate the Python environment;
 
 ## Submit the job
 ```bash
