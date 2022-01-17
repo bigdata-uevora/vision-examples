@@ -1,3 +1,10 @@
+# Slurm and Python's Virtual Environment
+To submit a Python application that uses Python's Virtual Environments for dependency management and project isolation as a Slurm job, you need to perform the following tasks:
+
+1. Create the Python Virtual Environment with the project dependencies
+2. Define the Slurm job script
+3. Submit the Slurm job
+
 ## Creating the Python Virtual Environment
 To submit this project in slurm using python virtualenv, you should start by creating the virtual env:
 
