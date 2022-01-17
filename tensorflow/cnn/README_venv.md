@@ -69,7 +69,7 @@ $ sbatch script_venv.sh
 Submitted batch job 143
 ```
 
-check if the job status:
+check the job status:
 ```bash
 $ squeue
              JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
