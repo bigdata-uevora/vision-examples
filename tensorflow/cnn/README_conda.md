@@ -1,10 +1,9 @@
 # Slurm and Conda
 To submit a Python application that uses Conda for dependency management and project isolation as a Slurm job, you need to perform the following tasks:
 
-1. Create the Conda environment
-2. Install the project dependencies
-3. Define the Slurm job script
-4. Submit the Slurm job
+1. Create the Conda environment with the project dependencies
+2. Define the Slurm job script
+3. Submit the Slurm job
 
 ## Creating the Conda environment
 To submit this project in slurm using Conda, you should start activating conda:
