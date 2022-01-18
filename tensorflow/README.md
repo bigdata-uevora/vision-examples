@@ -2,5 +2,5 @@ Here you can find examples on how to submit Tensorflow based applications as a S
 
 The examples avaialbe are:
 
-1. [Images - Convolutional Neural Network](cnn)
-2. [Images - Image classification](image_classification)
+- [Images - Convolutional Neural Network](cnn)
+- [Images - Image classification](image_classification)
