@@ -1,11 +1,20 @@
-# Slurm and Python's Virtual Environment
+# Running a Tensorflow based application as a Slurm job
+
+To run a Tensorflow based aplication as a Slurm job, you have two options to manage the project dependencies and isolation:
+
+1. Using Python's Virtual Environment
+2. Using Conda
+
+The recommend method to install Tensorflow is to use pip packages. As such, we recommend to use Python's Virtual Environment instead of conda. If you decide to use Conda, you should use pip to install/upgrade Tensorflow inside the Conda environment
+
+## Slurm and Python's Virtual Environment
 To submit a Python application that uses Python's Virtual Environments for dependency management and project isolation as a Slurm job, you need to perform the following tasks:
 
 1. Create the Python Virtual Environment with the project dependencies
 2. Define the Slurm job script
 3. Submit the Slurm job
 
-## Creating the Python Virtual Environment
+### Creating the Python Virtual Environment
 To submit this project in slurm using python virtualenv, you should start by creating the virtual env:
 
 ```shell
@@ -36,9 +45,9 @@ After installing all dependencies, you should deactivate the virtual environment
 (venv) $ deactivate
 ```
 
-## Configure the Slurm job script
+### Configure the Slurm job script
 
-### Example
+#### Example
 The following file ([script_venv.sh](script_venv.sh)) is of a Slurm job script to run this project:
 
 ```bash
@@ -63,7 +72,7 @@ In the first part of the script, we define the job name, the output file and the
 2. Excecute the code;
 3. Deactivate the Python environment;
 
-## Submit the job
+### Submit the job
 ```bash
 $ sbatch script_venv.sh
 Submitted batch job 143
@@ -77,14 +86,14 @@ $ squeue
 ```
 
 
-# Slurm and Conda
+## Slurm and Conda
 To submit a Python application that uses Conda for dependency management and project isolation as a Slurm job, you need to perform the following tasks:
 
 1. Create the Conda environment with the project dependencies
 2. Define the Slurm job script
 3. Submit the Slurm job
 
-## Creating the Conda environment
+### Creating the Conda environment
 To submit this project in slurm using Conda, you should start activating conda:
 
 ```shell
@@ -115,9 +124,9 @@ After installing all dependencies, you should deactivate the virtual environment
 (tf-gpu) $ conda deactivate
 ```
 
-## Configure the Slurm job script
+### Configure the Slurm job script
 
-### Example
+#### Example
 The following file ([script_conda.sh](script_conda.sh)) is of a Slurm job script to run this project:
 
 ```bash
@@ -143,7 +152,7 @@ In the first part of the script, we define the job name, the output file and the
 2. Excecute the code;
 3. Deactivate Conda  environment;
 
-## Submit the job
+### Submit the job
 ```bash
 $ sbatch script_conda.sh
 Submitted batch job 144

@@ -1,4 +1,4 @@
-Here you can find examples on how to submit Tensorflow based applications as a Slurm job. This examples are based in the oficial Tensoor flow tuotorials, available in https://www.tensorflow.org/tutorials/.
+Here you can find examples on how to submit Tensorflow based applications as a Slurm job. This examples are based in the oficial Tensorflow tuotorials, available in https://www.tensorflow.org/tutorials/.
 
 The examples avaialbe are:
 
