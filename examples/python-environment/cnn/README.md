@@ -1,3 +1,5 @@
+This is an example on how to submit a Slurm job which uses Python Virtual Environment for dependency management. This example uses TensorFlow and is based in one of the official examples from TensorFlow: https://www.tensorflow.org/tutorials/images/cnn.
+
 # Slurm and Python's Virtual Environment
 To submit a Python application that uses Python's Virtual Environments for dependency management and project isolation as a Slurm job, you need to perform the following tasks:
 
@@ -5,7 +7,7 @@ To submit a Python application that uses Python's Virtual Environments for depen
 2. Define the Slurm job script
 3. Submit the Slurm job
 
-## Creating the Python Virtual Environment
+## 1. Creating the Python Virtual Environment
 To submit this project in slurm using python virtualenv, you should start by creating the virtual env:
 
 ```shell
@@ -21,14 +23,23 @@ $ source ./venv/bin/activate
 upgrade pip:
 
 ```shell
-(venv) $pip install --upgrade pip
+(venv) $ pip install --upgrade pip
 ```
 
-and install the project dependencies:
+### Install dependencies
+You can install the project dependencies manually or using a requirements file.
 
+#### Install dependencies manually
+To install the dependencies manually, you should run:
 ```shell
 (venv) $ pip install tensorflow==2.7.0
 (venv) $ pip install matplotlib
+```
+
+#### Install dependencies using a dependency file
+To install the dependencies using a requirements file, you should run:
+```shell
+(venv) pip install -r requirements.txt
 ```
 
 After installing all dependencies, you should deactivate the virtual environment:
@@ -36,7 +47,8 @@ After installing all dependencies, you should deactivate the virtual environment
 (venv) $ deactivate
 ```
 
-## Configure the Slurm job script
+
+## 2. Configure the Slurm job script
 
 ### Example
 The following file ([script_venv.sh](script_venv.sh)) is of a Slurm job script to run this project:
@@ -63,7 +75,7 @@ In the first part of the script, we define the job name, the output file and the
 2. Excecute the code;
 3. Deactivate the Python environment;
 
-## Submit the job
+## 3. Submit the job
 ```bash
 $ sbatch script_venv.sh
 Submitted batch job 143
@@ -75,4 +87,3 @@ $ squeue
              JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
                143     batch      cnn    drwho  R       0:33      1 vision2
 ```
-

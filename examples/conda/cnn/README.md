@@ -1,24 +1,40 @@
+This is an example on how to submit a Slurm job which uses Conda for dependency management. This example uses TensorFlow and is based on the official examples from TensorFlow: https://www.tensorflow.org/tutorials/images/cnn.
+
+# Conda installation
+Conda is available in all nodes of Vision (head and compute nodes) in ```/opt/conda/```. You can use this Conda version, or if you prefer, can install another version in your home folder: https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html.
+
+In this example we use Conda installed in ```/opt/conda/```.
+
 # Slurm and Conda
+
+
+
 To submit a Python application that uses Conda for dependency management and project isolation as a Slurm job, you need to perform the following tasks:
 
 1. Create the Conda environment with the project dependencies
 2. Define the Slurm job script
 3. Submit the Slurm job
 
-## Creating the Conda environment
-To submit this project in slurm using Conda, you should start activating conda:
+## 1. Creating the Conda environment
+To submit this script in Slurm using Conda for dependency management you should start by activating Conda:
 
 ```shell
 $ source /opt/conda/etc/profile.d/conda.sh
 ```
 
-then create the Conda environment:
+and create the Conda environment. To create the Conda environment, you can use
 
-```
+ - create it manually
+ - use an envirnment file
+
+### Creating the Conda environment manually
+To create the Conda environment manually, you should start by creating the Conda environment:
+
+```shell
 (base) $ conda create -n tf-gpu tensorflow-gpu
 ```
 
-After creating the Conda environment, you should activate it:
+activate the Conda environment:
 
 ```shell
 (base) $ conda activate tf-gpu
@@ -36,10 +52,19 @@ After installing all dependencies, you should deactivate the virtual environment
 (tf-gpu) $ conda deactivate
 ```
 
+### Creating the Conda environment using an environment file:
+To create the Conda environment from the environment file you should run the following command:
+
+```shell
+conda env create -f environment.yml
+```
+
+This will create a Conda envirnment with the name and dependencies defined in the file environment.yml
+
 ## Configure the Slurm job script
 
 ### Example
-The following file ([script_conda.sh](script_conda.sh)) is of a Slurm job script to run this project:
+The following file ([script.sh](script.sh)) is of a Slurm job script to run this project:
 
 ```bash
 #!/bin/bash
