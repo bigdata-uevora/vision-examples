@@ -11,7 +11,7 @@ To submit a Python application that uses Python's Virtual Environments for depen
 To submit this project in slurm using python virtualenv, you should start by creating the virtual env:
 
 ```shell
-$ python3 -m venv --system-site-packages ./venv
+$ python3 -m venv ./venv
 ```
 
 After creating the virtual env, you should activate it:
@@ -34,6 +34,7 @@ To install the dependencies manually, you should run:
 ```shell
 (venv) $ pip install tensorflow==2.7.0
 (venv) $ pip install matplotlib
+
 ```
 
 #### Install dependencies using a dependency file
@@ -64,7 +65,7 @@ The following file ([script_venv.sh](script_venv.sh)) is of a Slurm job script t
 
 source venv/bin/activate
 
-python cnn.py
+python3 cnn.py
 
 deactivate
 ```
@@ -77,7 +78,7 @@ In the first part of the script, we define the job name, the output file and the
 
 ## 3. Submit the job
 ```bash
-$ sbatch script_venv.sh
+$ sbatch script.sh
 Submitted batch job 143
 ```
 
