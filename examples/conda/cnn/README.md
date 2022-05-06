@@ -78,7 +78,7 @@ The following file ([script.sh](script.sh)) is of a Slurm job script to run this
 source /opt/conda/bin/activate
 conda activate tf-gpu
 
-python cnn.py
+python3 cnn.py
 
 conda deactivate
 ```
