@@ -6,9 +6,9 @@
 #SBATCH --cpus-per-task=4        # cpu-cores per task (>1 if multi-threaded tasks)
 #SBATCH --gres=gpu:2             # number of gpus per node
 
-source venv/bin/activate
+source ./venv/bin/activate
 
-python cnn.py
+python3 cnn.py
 
 deactivate
 
