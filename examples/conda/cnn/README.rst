@@ -1,69 +1,70 @@
 Convolutional Neural Network (CNN)
 ==================================
 
-This is an example on how to submit a Slurm job which uses Python Virtual Environment for dependency management. This example uses TensorFlow and is based in one of the official examples from TensorFlow: https://www.tensorflow.org/tutorials/images/cnn.
+This is an example on how to submit a Slurm job which uses Conda for dependency management. This example uses TensorFlow and is based on the official examples from TensorFlow: https://www.tensorflow.org/tutorials/images/cnn.
 
-To submit a Python application that uses Python's Virtual Environments for dependency management and project isolation as a Slurm job, you need to perform the following tasks:
+Conda is available in all nodes of Vision (head and compute nodes) in ``/opt/conda/``. You can use this Conda version, or if you prefer, can install another version in your home folder: https://docs.conda.io/projects/conda/en/latest/user-guide/install/linux.html.
 
- #. Create the Python Virtual Environment with the project dependencies
- #. Define the Slurm job script
- #. Submit the Slurm job
+In this example we use Conda installed in ``/opt/conda/``.
 
+To submit a Python application that uses Conda for dependency management and project isolation as a Slurm job, you need to perform the following tasks:
 
-1. Creating the Python Virtual Environment
-------------------------------------------
+  #. Create the Conda environment with the project dependencies
+  #. Define the Slurm job script
+  #. Submit the Slurm job
 
-To submit this project in slurm using python virtualenv, you should start by creating the virtual env:
+1. Creating the Conda environment
+---------------------------------
 
-.. code-block:: console
-
-  $ python3 -m venv ./venv
-
-
-After creating the virtual env, you should activate it:
+To submit this script in Slurm using Conda for dependency management you should start by activating Conda:
 
 .. code-block:: console
 
-  $ source ./venv/bin/activate
+  $ source /opt/conda/etc/profile.d/conda.sh
 
+and then create the Conda environment. To create the Conda environment, you can use:
 
-upgrade pip:
+ - create it manually
+ - use an envirnment file
 
-.. code-block:: console
+Creating the Conda environment manually
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-  (venv) $ pip install --upgrade pip
-
-
-Install dependencies
-^^^^^^^^^^^^^^^^^^^^
-
-You can install the project dependencies manually or using a requirements file.
-
-Install dependencies manually
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-To install the dependencies manually, you should run:
+To create the Conda environment manually, you should start by creating the Conda environment:
 
 .. code-block:: console
 
-  (venv) $ pip install tensorflow==2.7.0
-  (venv) $ pip install matplotlib
+  (base) $ conda create -n tf-gpu tensorflow-gpu
 
-Install dependencies using a dependency file
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-To install the dependencies using a requirements file, you should run:
+activate the Conda environment:
 
 .. code-block:: console
 
-  (venv) $ pip install -r requirements.txt
+  (base) $ conda activate tf-gpu
 
+and install the project dependencies:
+
+.. code-block:: console
+
+  (tf-gpu) $ pip install tensorflow==2.7.0
+  (tf-gpu) $ pip install matplotlib
 
 After installing all dependencies, you should deactivate the virtual environment:
 
 .. code-block:: console
 
-  (venv) $ deactivate
+  (tf-gpu) $ conda deactivate
+
+Creating the Conda environment using an environment file:
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To create the Conda environment from the environment file you should run the following command::
+
+.. code-block:: console
+
+  conda env create -f environment.yml
+
+This will create a Conda envirnment with the name and dependencies defined in the file environment.yml
 
 2. Configure the Slurm job script
 ---------------------------------
@@ -74,27 +75,28 @@ The following is a Slurm job script to run this project:
 
 .. code-block:: console
 
-  #! /bin/bash
-  #SBATCH --job-name=cnn                    # create a short name for your job
-  #SBATCH --output="slurm-cnn-venv-%j.out"  # %j will be replaced by the slurm jobID
-  #SBATCH --nodes=1                         # node count
-  #SBATCH --ntasks=1                        # total number of tasks across all nodes
-  #SBATCH --cpus-per-task=4                 # cpu-cores per task (>1 if multi-threaded tasks)
-  #SBATCH --gres=gpu:2                      # number of gpus per node
+  #!/bin/bash
+  #SBATCH --job-name=cnn           # create a short name for your job
+  #SBATCH --output="slurm-cnn-conda-%j.out"	 # %j will be replaced by the slurm jobID
+  #SBATCH --nodes=1                # node count
+  #SBATCH --ntasks=1               # total number of tasks across all nodes
+  #SBATCH --cpus-per-task=4        # cpu-cores per task (>1 if multi-threaded tasks)
+  #SBATCH --gres=gpu:2             # number of gpus per node
 
-  source venv/bin/activate
+  source /opt/conda/bin/activate
+  conda activate tf-gpu
 
   python3 cnn.py
 
-  deactivate
+  conda deactivate
 
 The script is made of two parts: 1) specification of the resources needed as well to run the job as some general job information; and 2) specification of the taks that will be run.
 
-In the first part of the script, we define the job name, the output file and the requested resources (4 CPUs and 2 GPUs). Then, in the second part, we define the tasks of the job. When using Python Virtual Environments, we should run the following steps:
+In the first part of the script, we define the job name, the output file and the requested resources (4 CPUs and 2 GPUs). Then, in the second part, we define the tasks of the job. When using Conda, we should run the following:
 
-  #. Activate the Python environment;
-  #. Excecute the code;
-  #. Deactivate the Python environment;
+1. Activate the Conda environment;
+2. Excecute the code;
+3. Deactivate Conda  environment;
 
 3. Submit the job
 -----------------
@@ -103,14 +105,13 @@ To submit the job, you should run the following command:
 
 .. code-block:: console
 
-  $ sbatch script.sh
-  Submitted batch job 143
-
+  $ sbatch script_conda.sh
+  Submitted batch job 144
 
 You can check the job status using the following command:
 
 .. code-block:: console
 
   $ squeue
-               JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
-                 143     batch      cnn     user  R       0:33      1 vision2
+                JOBID PARTITION     NAME     USER ST       TIME  NODES NODELIST(REASON)
+                143       batch      cnn     user  R       0:33      1 vision2
